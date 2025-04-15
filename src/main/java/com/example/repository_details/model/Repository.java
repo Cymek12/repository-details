@@ -1,5 +1,6 @@
 package com.example.repository_details.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,9 +11,13 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class Repository {
-    private String full_name;
+    @JsonProperty("full_name")
+    private String fullName;
     private String description;
-    private String clone_url;
-    private String watchers_count;
-    private LocalDateTime created_at;
+    @JsonProperty("clone_url")
+    private String cloneUrl;
+    @JsonProperty("watchers_count")
+    private String watchersNumber;
+    @JsonProperty("created_at")
+    private LocalDateTime createdAt;
 }
