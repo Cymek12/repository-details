@@ -1,22 +1,28 @@
 package com.example.repository_details.controller;
 
-import com.example.repository_details.model.Repository;
 import com.example.repository_details.model.RepositoryDTO;
 import com.example.repository_details.service.RepositoryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/repositories")
+@RequestMapping
 @RequiredArgsConstructor
 public class RepositoryController {
     private final RepositoryService repositoryService;
 
-    @GetMapping("/{owner}/{repository-name}")
+    @GetMapping("/repositories/{owner}/{repository-name}")
     public RepositoryDTO getRepositoryDetails(@PathVariable("owner") String owner, @PathVariable("repository-name") String repositoryName) {
         return repositoryService.getRepositoryDetails(owner, repositoryName);
+    }
+
+    @PostMapping("/repositories/{owner}/{repository-name}")
+    public RepositoryDTO saveRepositoryDetailsToDB(@PathVariable("owner") String owner, @PathVariable("repository-name") String repositoryName) {
+        return repositoryService.saveRepositoryDetailsToDB(owner, repositoryName);
+    }
+
+    @GetMapping("/local/repositories/{owner}/{repository-name}")
+    public RepositoryDTO getLocalRepositoryDetails(@PathVariable("owner") String owner, @PathVariable("repository-name") String repositoryName) {
+        return repositoryService.getLocalRepositoryDetails(owner, repositoryName);
     }
 }

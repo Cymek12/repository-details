@@ -1,21 +1,26 @@
 package com.example.repository_details.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
+@Entity
 @Getter
-public class Repository {
-    @JsonProperty("full_name")
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "repositories")
+public class RepositoryEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String fullName;
     private String description;
-    @JsonProperty("clone_url")
     private String cloneUrl;
-    @JsonProperty("watchers_count")
     private String watchersNumber;
-    @JsonProperty("created_at")
     private LocalDateTime createdAt;
 }
