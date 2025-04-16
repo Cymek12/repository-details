@@ -24,7 +24,7 @@ public class RepositoryService {
     }
 
     public RepositoryDTO saveRepositoryDetailsToDB(String owner, String repositoryName) {
-        String fullName = owner + "/" + repositoryName;
+        String fullName = createFullName(owner, repositoryName);
         if (repositoryRepository.existsByFullName(fullName)) {
             throw new RepositoryAlreadyExistsException("Repository named: " + fullName + " already exists");
         }
@@ -34,8 +34,12 @@ public class RepositoryService {
     }
 
     public RepositoryDTO getLocalRepositoryDetails(String owner, String repositoryName) {
-        String fullName = owner + "/" + repositoryName;
+        String fullName = createFullName(owner, repositoryName);
         return repositoryMapper.toDTO(repositoryRepository.findByFullName(fullName)
                 .orElseThrow(() -> new RepositoryNotFoundException("Repository named: " + fullName + " does not exists")));
+    }
+
+    private String createFullName(String owner, String repositoryName) {
+        return owner + "/" + repositoryName;
     }
 }
