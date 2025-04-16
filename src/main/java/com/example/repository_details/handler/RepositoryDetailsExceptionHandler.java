@@ -12,6 +12,6 @@ import java.util.Date;
 public class RepositoryDetailsExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(WebException.class)
     public ErrorMessage handleWebException(WebException ex) {
-        return new ErrorMessage(ex.getMessage(), ex.getHttpStatus(), new Date());
+        return new ErrorMessage(ex.getStatus(), ex.getError(), ex.getMessage(), new Date());
     }
 }

@@ -1,14 +1,16 @@
 package com.example.repository_details.exception;
 
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 @Getter
 public class WebException extends RuntimeException {
-    private final HttpStatus httpStatus;
+    private final Integer status;
+    private final String error;
+    private final String message;
 
-    public WebException(String message, HttpStatus httpStatus) {
-        super(message);
-        this.httpStatus = httpStatus;
+    public WebException(Integer status, String error, String message) {
+        this.status = status;
+        this.error = error;
+        this.message = message;
     }
 }

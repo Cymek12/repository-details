@@ -67,13 +67,14 @@ public class RepositoryControllerTest {
     void saveRepositoryDetailsToDB_returnErrorMessage() throws Exception {
         String owner = "barchart";
         String repositoryName = "marketdata-api-js";
-        when(repositoryService.getRepositoryDetails(owner, repositoryName)).thenThrow(new RepositoryAlreadyExistsException("Repository alreadyExists"));
+        when(repositoryService.getRepositoryDetails(owner, repositoryName)).thenThrow(new RepositoryAlreadyExistsException("Repository already exists"));
         mockMvc.perform(get("/repositories/{owner}/{repository-name}", owner, repositoryName)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.message").value("Repository alreadyExists"))
-                .andExpect(jsonPath("$.httpStatus").value("BAD_REQUEST"));
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.error").value("Bad request"))
+                .andExpect(jsonPath("$.message").value("Repository already exists"));
     }
 
     @Test
@@ -102,7 +103,8 @@ public class RepositoryControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.message").value("Repository not found"))
-                .andExpect(jsonPath("$.httpStatus").value("NOT_FOUND"));
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.error").value("Not found"))
+                .andExpect(jsonPath("$.message").value("Repository not found"));
     }
 }

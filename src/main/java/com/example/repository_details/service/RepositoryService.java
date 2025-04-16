@@ -25,11 +25,8 @@ public class RepositoryService {
 
     public RepositoryDTO saveRepositoryDetailsToDB(String owner, String repositoryName) {
         String fullName = owner + "/" + repositoryName;
-        if (owner == null && repositoryName == null) {
-            throw new RepositoryNotFoundException("Repository named: " + fullName + " does not exists");
-        }
         if (repositoryRepository.existsByFullName(fullName)) {
-            throw new RepositoryAlreadyExistsException("Repository named: " + fullName + " alreadyExists");
+            throw new RepositoryAlreadyExistsException("Repository named: " + fullName + " already exists");
         }
         Repository repositoryDetails = githubClient.getRepositoryDetails(owner, repositoryName);
         RepositoryEntity savedRepository = repositoryRepository.save(repositoryMapper.toEntity(repositoryDetails));
@@ -39,6 +36,6 @@ public class RepositoryService {
     public RepositoryDTO getLocalRepositoryDetails(String owner, String repositoryName) {
         String fullName = owner + "/" + repositoryName;
         return repositoryMapper.toDTO(repositoryRepository.findByFullName(fullName)
-                .orElseThrow(() -> new RepositoryNotFoundException("Repository named:" + fullName + " does not exists")));
+                .orElseThrow(() -> new RepositoryNotFoundException("Repository named: " + fullName + " does not exists")));
     }
 }
